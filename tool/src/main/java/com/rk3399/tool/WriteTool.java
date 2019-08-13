@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class WriteTool {
     //502机器
-    public static final String GPIO0_PATH = "/sys/bus/platform/devices/gpio_port/gpioport/irled";//红外补光
+    public static final String irled = "/sys/bus/platform/devices/gpio_port/gpioport/irled";//红外补光
     public static final String ledred ="/sys/bus/platform/devices/gpio_port/gpioport/ledred";//红色灯
     public static final String ledgre ="/sys/bus/platform/devices/gpio_port/gpioport/ledgre";//绿
     public static final String dsled3 ="/sys/bus/platform/devices/gpio_port/gpioport/dsled3";//白光补光灯2（dsled3）
@@ -23,15 +23,9 @@ public class WriteTool {
     public static final String redled602="/sys/devices/platform/gpioport/gpioport/led_blue";//红led
     public static final String greled602="/sys/devices/platform/gpioport/gpioport/led_gre";//绿灯
     public static final String blueled602="/sys/devices/platform/gpioport/gpioport/led_red";//蓝灯
-    //防拆
-    public static final String forbid602="/sys/devices/platform/gpioport/gpioport/forbid";
-    //人体感应
-    public static final String mandet602="/sys/devices/platform/gpioport/gpioport/mandet";
     /***************新205  /sys/bus/platform/devices/gpioport/gpioport *************/
-    //防拆
-    //public static final String forbid602="/sys/bus/platform/devices/gpioport/gpioport/forbid";
-    //人体感应
-    //public static final String mandet602="/sys/bus/platform/devices/gpioport/gpioport/mandet";
+    public static final String forbid602="/sys/bus/platform/devices/gpioport/gpioport/forbid";//防拆
+    public static final String mandet602="/sys/bus/platform/devices/gpioport/gpioport/mandet";//人体感应
     //gpio口控制 1上电 0断电
     public static final String  gpio1="/sys/bus/platform/devices/gpioport/gpioport/gpio1";
     public static final String  gpio2="/sys/bus/platform/devices/gpioport/gpioport/gpio2";
@@ -41,19 +35,29 @@ public class WriteTool {
     public static final String  hubrst="/sys/bus/platform/devices/gpioport/gpioport/hubrst";
 
 
+    /**
+     * 写系统节点
+     * @param sys_path
+     * @param value
+     */
     public static void writeSysFile(String sys_path, String value){
         try {
             BufferedWriter bufWriter = null;
             bufWriter = new BufferedWriter(new FileWriter(sys_path));
-            bufWriter.write(value);  // 写操作
+            bufWriter.write(value);
             bufWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("xxx","can't write the " + sys_path);
+            Log.e("WriteTool","can't write the " + sys_path);
         }
-        Log.e("xxx",(value.equals("1")?"开":"关")+sys_path);
+        Log.e("WriteTool",(value.equals("1")?"开":"关")+sys_path);
     }
 
+    /**
+     * 读系统节点
+     * @param sys_path
+     * @return
+     */
     public static String readSysFile(String sys_path){
         String valye="";
         try {
@@ -63,10 +67,9 @@ public class WriteTool {
             bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("xxx","读取感应值异常了 ");
+            Log.e("WriteTool","读取值异常了 ");
         }
-        Log.e("xxx","读取感应值 " + valye);
+        Log.e("WriteTool","读取值 " + valye);
         return valye;
     }
-
 }
